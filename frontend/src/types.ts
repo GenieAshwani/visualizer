@@ -1,0 +1,9 @@
+export type Variable = { type: string; value: string; arrayId?: number; collectionId?: number };
+export type ArrayValue = { id: number; type: string; values: string[]; length: number };
+export type CollectionEntry = { key: string | null; value: string };
+export type CollectionValue = { id: number; type: string; kind: 'list' | 'set' | 'map'; entries: CollectionEntry[]; size: number; supported: boolean; truncated: boolean; note: string };
+export type CollectionFlow = { collectionId: number; index: number; source: string; target: string; value: string; direction: 'read' | 'write' };
+export type Transfer = { array: string; index: number; variable?: string; value: string; direction: 'read' | 'write' | 'copy'; targetArray?: string; targetIndex?: number };
+export type Step = { index: number; executedLine: number; nextLine: number; method: string; variables: Record<string, Variable>; arrays: Record<string, ArrayValue>; collections: Record<string, CollectionValue>; stack: { method: string; line: number; variables: Record<string, Variable> }[]; transfers: Transfer[]; collectionFlows: CollectionFlow[] };
+export type Trace = { status: string; steps: Step[]; diagnostics: { kind: string; line: number; column: number; message: string }[]; stdout: string; stderr: string; message: string; durationMs: number };
+export type Preview = { mode: 'static'; incomplete: boolean; variables: Record<string, Variable>; arrays: Record<string, ArrayValue>; collections?: Record<string, CollectionValue>; methods: { name: string; signature: string; line: number }[]; declarations: Record<string, { name: string; scope: string; line: number; initializer: string; known: boolean }> };
